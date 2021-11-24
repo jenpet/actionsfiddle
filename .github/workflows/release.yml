@@ -32,4 +32,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build an Test Stuff
-        run: echo "building and testing"
+        run: |
+          set -e
+          # default platform
+          platforms=("darwin/amd64")
+          if [ "${1}" = "all" ]; then
+            platforms=({{ .build.platforms }})
+          elif [ ! -z "${1}" ]; then
+            platforms=("${1}")
+          fi
+          echo "Building for ${#platforms[@]} platform(s): ${platforms[*]}"
+          for platform in ${platforms[*]}
+          do
+            echo "Platform: ${platform}"
+          done
